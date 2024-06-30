@@ -1,0 +1,30 @@
+{
+  "name": "vite-fastify-monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "npm run dev:start",
+    "dev:start": "concurrently --kill-others-on-fail \"npm run docker:up\" \"npm run wait-for-dynamodb\" \"npm run start-dev\"",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "wait-for-dynamodb": "wait-on tcp:localhost:8000",
+    "start-dev": "concurrently \"turbo run dev --filter=backend\" \"turbo run dev --filter=frontend\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.3.2",
+    "turbo": "^2.0.5"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "packageManager": "npm@10.2.3",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "wait-on": "^7.2.0"
+  }
+}
